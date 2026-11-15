@@ -56,6 +56,7 @@ class NewPipeDownloaderImpl(
 
     @Throws(IOException::class, ReCaptchaException::class)
     override fun execute(request: Request): Response {
+        if (LocalOnly.ENABLED) throw OfflineModeException()
         val httpMethod = request.httpMethod()
         val url = request.url()
         val headers = request.headers()

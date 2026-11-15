@@ -48,13 +48,15 @@ fun IntegrationsScreen(navController: NavController) {
                 icon = R.drawable.integration_librefm,
                 onClick = { navController.navigate(scrobbleServiceRoute(ScrobbleSite.LIBREFM)) },
             )
-            IntegrationRow(
-                name = stringResource(R.string.module_youtube_name),
-                description = stringResource(R.string.module_youtube_desc),
-                icon = R.drawable.provider_youtube_music,
-                iconBackground = YouTubeMusicRed,
-                onClick = { navController.navigate(YouTubeSyncRoute) },
-            )
+            if (!com.music.innertube.LocalOnly.ENABLED) {
+                IntegrationRow(
+                    name = stringResource(R.string.module_youtube_name),
+                    description = stringResource(R.string.module_youtube_desc),
+                    icon = R.drawable.provider_youtube_music,
+                    iconBackground = YouTubeMusicRed,
+                    onClick = { navController.navigate(YouTubeSyncRoute) },
+                )
+            }
         }
 
         Spacer(Modifier.height(140.dp))

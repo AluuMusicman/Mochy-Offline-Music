@@ -237,6 +237,7 @@ object YTPlayerUtils {
         // a music video plays its song's studio upload when there is one, without the video's skits and sound effects
         preferStudio: Boolean = false,
     ): Result<PlaybackData> {
+        if (com.music.innertube.LocalOnly.ENABLED) return Result.failure(com.music.innertube.OfflineModeException())
         val firstAttempt = resolvePlaybackData(videoId, playlistId, audioQuality, connectivityManager)
             .orStandIn(videoId, audioQuality, connectivityManager)
         if (preferStudio) {

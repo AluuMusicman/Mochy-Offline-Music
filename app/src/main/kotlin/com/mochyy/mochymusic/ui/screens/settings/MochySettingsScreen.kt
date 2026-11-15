@@ -144,7 +144,7 @@ private val LocalizedSettingsPages = mapOf(
     "Integrations" to R.string.integrations,
 )
 
-private val SettingsIndex = listOf(
+private val SettingsIndex: List<SettingsEntry> = listOf(
     // Customisation
     SettingsEntry("Customisation", "Customisation", "customisation_settings", "customize cover rounding playlist player home styles gesture swipe blur animation lyrics"),
     SettingsEntry("Cover rounding", "Customisation", "customisation_settings", "square rounded corner radius px thumbnail art"),
@@ -244,7 +244,12 @@ private val SettingsIndex = listOf(
     SettingsEntry("Repeat initial setup", "Experimental", "experimental_settings", "onboarding wizard setup"),
     SettingsEntry("Show where songs play from", "Experimental", "experimental_settings", "source banner toast apple music monochrome youtube"),
     SettingsEntry("Force playback", "Experimental", "experimental_settings", "fallback skip error stream failed youtube"),
-)
+).filterNot { e ->
+    com.music.innertube.LocalOnly.ENABLED && (
+        e.page == "Modules" || e.route == YouTubeSyncRoute || e.title == "YouTube Music" ||
+        e.title == "Import & sync" || e.title == "Cipher" || e.title == "Provider order"
+    )
+}
 
 private data class RecommendedSetting(
     val titleRes: Int,
@@ -571,15 +576,17 @@ fun MochySettingsScreen(navController: NavController, pane: SettingsPane? = null
                             onClick = { open(com.mochyy.mochymusic.ui.screens.devices.DeviceIntegrationRoute) }
                         )
 
-                        CategoryBubble(
-                            title = stringResource(R.string.settings_modules_category),
-                            iconRes = R.drawable.library_add,
-                            selected = selected == "modules",
-                            onClick = { open("modules") }
-                        )
+                        if (!com.music.innertube.LocalOnly.ENABLED) {
+                            CategoryBubble(
+                                title = stringResource(R.string.settings_modules_category),
+                                iconRes = R.drawable.library_add,
+                                selected = selected == "modules",
+                                onClick = { open("modules") }
+                            )
 
-                        // pages the modules that are on bring to settings, right under modules
-                        com.mochyy.mochymusic.ui.screens.settings.modules.ModuleSettingsPages(open = open, selected = selected)
+                            // pages the modules that are on bring to settings, right under modules
+                            com.mochyy.mochymusic.ui.screens.settings.modules.ModuleSettingsPages(open = open, selected = selected)
+                        }
                     }
                 }
             }

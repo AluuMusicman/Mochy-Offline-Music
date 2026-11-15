@@ -1060,7 +1060,7 @@ class HomeViewModel @Inject constructor(
         loadLocalDataPhase()
         isLoading.value = false
 
-        val offlineMode = context.dataStore.get(OfflineModeKey, false)
+        val offlineMode = context.dataStore.get(OfflineModeKey, false) || com.music.innertube.LocalOnly.ENABLED
         if (!offlineMode) {
             // set the cookie here rather than trusting the account collector to have run first;
             // when it lost that race the account playlists were silently skipped
@@ -1180,7 +1180,7 @@ class HomeViewModel @Inject constructor(
             lastLoadAt = SystemClock.elapsedRealtime()
             artistPages.clear()
             loadLocalDataPhase()
-            if (context.dataStore.get(OfflineModeKey, false)) return
+            if (com.music.innertube.LocalOnly.ENABLED || context.dataStore.get(OfflineModeKey, false)) return
             supervisorScope {
                 launchSafely { getDailyDiscover() }
                 launchSafely { loadCategories() }

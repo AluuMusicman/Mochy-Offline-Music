@@ -130,7 +130,8 @@ fun SearchScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val playerConnection = LocalPlayerConnection.current
     val pauseSearchHistory by rememberPreference(PauseSearchHistoryKey, defaultValue = false)
-    val offlineMode by rememberPreference(com.mochyy.mochymusic.constants.OfflineModeKey, defaultValue = false)
+    val offlineModeSetting by rememberPreference(com.mochyy.mochymusic.constants.OfflineModeKey, defaultValue = false)
+    val offlineMode = offlineModeSetting || com.music.innertube.LocalOnly.ENABLED
     val profilePicStr by rememberPreference(ProfilePicUriKey, defaultValue = "")
 
     var query by rememberSaveable(stateSaver = TextFieldValue.Saver) {
@@ -438,7 +439,8 @@ internal fun SearchActiveContent(
     topPadding: Dp = searchTopBarHeight(withTitle = false),
 ) {
     val playerConnection = LocalPlayerConnection.current
-    val offlineMode by rememberPreference(com.mochyy.mochymusic.constants.OfflineModeKey, defaultValue = false)
+    val offlineModeSetting by rememberPreference(com.mochyy.mochymusic.constants.OfflineModeKey, defaultValue = false)
+    val offlineMode = offlineModeSetting || com.music.innertube.LocalOnly.ENABLED
     val bottomInset = LocalPlayerAwareWindowInsets.current
         .asPaddingValues()
         .calculateBottomPadding()

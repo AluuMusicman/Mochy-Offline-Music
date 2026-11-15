@@ -77,7 +77,8 @@ fun SearchSidePane(
     val keyboard = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
     val pauseSearchHistory by rememberPreference(PauseSearchHistoryKey, defaultValue = false)
-    val offlineMode by rememberPreference(OfflineModeKey, defaultValue = false)
+    val offlineModeSetting by rememberPreference(OfflineModeKey, defaultValue = false)
+    val offlineMode = offlineModeSetting || com.music.innertube.LocalOnly.ENABLED
     val profilePicStr by rememberPreference(ProfilePicUriKey, defaultValue = "")
 
     val suggestionViewModel: OnlineSearchSuggestionViewModel = hiltViewModel()

@@ -100,6 +100,11 @@ class InnerTube {
                     )
                 )
 
+                addInterceptor { chain ->
+                    if (LocalOnly.ENABLED) throw OfflineModeException()
+                    chain.proceed(chain.request())
+                }
+
                 connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
                 writeTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
@@ -207,7 +212,7 @@ class InnerTube {
         factor: Double = 2.0,
         block: suspend () -> T,
     ): T {
-        if (offline) throw OfflineModeException()
+        if (offline || LocalOnly.ENABLED) throw OfflineModeException()
         var currentDelay = initialDelay
         var attempt = 0
         while (true) {

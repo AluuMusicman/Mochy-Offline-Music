@@ -103,7 +103,7 @@ fun ExperimentalSettingsScreen(navController: NavController) {
                             }
                         )
                     )
-                    add(
+                    if (!com.music.innertube.LocalOnly.ENABLED) add(
                         SettingsItem(
                             title = { Text("Import & sync") },
                             highlightKey = "Import & sync",

@@ -50,7 +50,7 @@ constructor(
                                 history = history,
                             )
                         }
-                    } else if (com.mochyy.mochymusic.utils.OfflineMode.isOn) {
+                    } else if (com.mochyy.mochymusic.utils.OfflineMode.isOn || com.music.innertube.LocalOnly.ENABLED) {
                         // offline: the library is all there is to search, shown where YouTube's
                         // top results would be
                         combine(

@@ -133,6 +133,8 @@ class App : Application(), SingletonImageLoader.Factory {
         }
 
         applicationScope.launch(Dispatchers.IO) {
+            // local-only: no YouTube session, so no BotGuard / PoToken / player-script warm-up
+            if (com.music.innertube.LocalOnly.ENABLED) return@launch
             // Boot BotGuard once a session id exists. Without a PoToken YouTube serves only a
             // ~32 second preview window, and paying the engine's cold start inside the playback
             // resolver stalls the first track instead.
